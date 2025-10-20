@@ -26,6 +26,7 @@
     { "nombre": "Aceite de almendras", "precio_por_gramo": 0.20 },
     { "nombre": "Carbon activado", "precio_por_gramo": 0.30 },
     { "nombre": "Arcilla", "precio_por_gramo": 0.07 },
+    { "nombre": "Cacao en polvo", "precio_por_gramo": 0.08 },
     { "nombre": "Vitamina E", "precio_por_gramo": 0.25 },
     { "nombre": "Café molido", "precio_por_gramo": 0.06 },
     { "nombre": "Curcuma", "precio_por_gramo": 0.44 },
