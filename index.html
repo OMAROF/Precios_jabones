@@ -291,7 +291,7 @@
 
             function renderizarReceta() {
                 listaReceta.innerHTML = '';
-                const baseGlicerina = receta.find(item => item.nombre === "Jobon en Gliserina");
+                const baseGlicerina = receta.find(item => item.nombre === "Base_Jabon Variados");
                 const cantidadBase = baseGlicerina ? baseGlicerina.cantidad : 0;
 
                 if (receta.length === 0) {
@@ -299,7 +299,7 @@
                 } else {
                     receta.forEach((item, index) => {
                         const tr = document.createElement('tr');
-                        let porcentajeContenido = (item.nombre === 'Jobon en Gliserina') ? `<div class="text-sm font-semibold text-indigo-600">Base</div>`
+                        let porcentajeContenido = (item.nombre === 'Base_Jabon Variados') ? `<div class="text-sm font-semibold text-indigo-600">Base</div>`
                             : (cantidadBase > 0) ? `<div class="text-sm text-gray-700">${((item.cantidad / cantidadBase) * 100).toFixed(2)}%</div>`
                             : `<div class="text-sm text-gray-500">N/A</div>`;
                         
@@ -405,7 +405,7 @@
 
                 const nombreReceta = inputRecetaNombre.value.trim() || 'Receta Sin Nombre';
                 const caracteristicas = inputRecetaCaracteristicas.value.trim();
-                const baseGlicerina = receta.find(item => item.nombre === "Jobon en Gliserina");
+                const baseGlicerina = receta.find(item => item.nombre === "Base_Jabon Variados");
                 const cantidadBase = baseGlicerina ? baseGlicerina.cantidad : 0;
 
                 let y = 15;
@@ -431,7 +431,7 @@
                 doc.setFontSize(10);
                 receta.forEach(item => {
                     let porcentaje = '';
-                     if (item.nombre === 'Jobon en Gliserina') {
+                     if (item.nombre === 'Base_Jabon Variados') {
                         porcentaje = ` (Base)`;
                     } else if (cantidadBase > 0) {
                         porcentaje = ` (${((item.cantidad / cantidadBase) * 100).toFixed(2)}%)`;
