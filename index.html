@@ -243,62 +243,52 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- DATOS ---
-            const productos = [
-                { nombre: "Jobon en Gliserina", precio_por_gramo: 0.10 }, { nombre: "Laurin", precio_por_gramo: 0.10 },
-                { nombre: "Esencia", precio_por_gramo: 1.17 }, { nombre: "Colorante", precio_por_gramo: 1.87 },
-                { nombre: "Miel", precio_por_gramo: 0.20 }, { nombre: "Aceite de coco", precio_por_gramo: 0.18 },
-                { nombre: "Aceite de almendras", precio_por_gramo: 0.20 }, { nombre: "Carbon activado", precio_por_gramo: 0.30 },
-                { nombre: "Arcilla", precio_por_gramo: 0.07 }, { nombre: "Vitamina E", precio_por_gramo: 0.25 },
-                { nombre: "Café molido", precio_por_gramo: 0.06 }, { nombre: "Curcuma", precio_por_gramo: 0.44 },
-                { nombre: "Avena", precio_por_gramo: 0.05 }, { nombre: "Pupkin", precio_por_gramo: 1.11 },
-                { nombre: "Amapola", precio_por_gramo: 1.43 }, { nombre: "Té", precio_por_gramo: 1.03 },
-                { nombre: "Bolsa", precio_por_gramo: 0.60 }, { nombre: "Emplaye", precio_por_gramo: 1.00 },
-                { nombre: "Etiquetas", precio_por_gramo: 1.00 }, { nombre: "Extr. Tea tree", precio_por_gramo: 0.98 },
-                { nombre: "Ext. Lavanda", precio_por_gramo: 0.69 }, { nombre: "Ext. Centella asiatica", precio_por_gramo: 0.89 },
-                { nombre: "Arroz en polvo", precio_por_gramo: 0.06 }
-            ];
-
-            // --- ESTADO DE LA APLICACIÓN ---
+            let productos = [];
             let receta = [];
             let gastosAdicionales = [];
 
-            // --- ELEMENTOS DEL DOM (INFO RECETA) ---
             const inputRecetaNombre = document.getElementById('receta-nombre');
             const inputRecetaCaracteristicas = document.getElementById('receta-caracteristicas');
             const btnDescargarReporte = document.getElementById('descargar-reporte-btn');
             const btnNuevoRegistro = document.getElementById('nuevo-registro-btn');
 
-            // --- ELEMENTOS DEL DOM (INGREDIENTES) ---
             const selectorIngrediente = document.getElementById('ingrediente');
             const inputCantidad = document.getElementById('cantidad');
             const btnAgregar = document.getElementById('agregar-btn');
             const listaReceta = document.getElementById('lista-receta');
             const filaVaciaReceta = document.getElementById('fila-vacia-receta');
             
-            // --- ELEMENTOS DEL DOM (GASTOS) ---
             const inputGastoDescripcion = document.getElementById('gasto-descripcion');
             const inputGastoMonto = document.getElementById('gasto-monto');
             const btnAgregarGasto = document.getElementById('agregar-gasto-btn');
             const listaGastos = document.getElementById('lista-gastos');
             const filaVaciaGastos = document.getElementById('fila-vacia-gastos');
 
-            // --- ELEMENTOS DEL DOM (TOTALES) ---
             const inputGanancia = document.getElementById('ganancia');
             const elCostoTotalIngredientes = document.getElementById('costo-total-ingredientes');
             const elCostoTotalGastos = document.getElementById('costo-total-gastos');
             const elGananciaEstimada = document.getElementById('ganancia-estimada');
             const elPrecioFinal = document.getElementById('precio-final');
 
-            // --- INICIALIZACIÓN ---
-            productos.forEach(producto => {
-                const option = document.createElement('option');
-                option.value = producto.nombre;
-                option.textContent = `${producto.nombre} ($${producto.precio_por_gramo.toFixed(2)} por g/ml)`;
-                selectorIngrediente.appendChild(option);
-            });
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    productos = data;
+                    inicializarAplicacion();
+                });
 
-            // --- FUNCIONES DE RENDERIZADO ---
+            function inicializarAplicacion() {
+                productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto.nombre;
+                    option.textContent = `${producto.nombre} ($${producto.precio_por_gramo.toFixed(2)} por g/ml)`;
+                    selectorIngrediente.appendChild(option);
+                });
+
+                renderizarReceta();
+                renderizarGastos();
+            }
+
             function renderizarReceta() {
                 listaReceta.innerHTML = '';
                 const baseGlicerina = receta.find(item => item.nombre === "Jobon en Gliserina");
@@ -342,7 +332,6 @@
                 calcularTotales();
             }
             
-            // --- FUNCIÓN DE CÁLCULO ---
             function calcularTotales() {
                 const costoIngredientes = receta.reduce((total, item) => total + item.costo, 0);
                 const costoGastos = gastosAdicionales.reduce((total, gasto) => total + gasto.monto, 0);
@@ -359,7 +348,6 @@
                 elPrecioFinal.textContent = `$${precioVenta.toFixed(2)}`;
             }
 
-            // --- MANEJADORES DE EVENTOS ---
             btnAgregar.addEventListener('click', () => {
                 const nombreIngrediente = selectorIngrediente.value;
                 const cantidad = parseFloat(inputCantidad.value);
@@ -492,10 +480,6 @@
             });
             
             inputGanancia.addEventListener('input', calcularTotales);
-
-            // --- RENDERIZADO INICIAL ---
-            renderizarReceta();
-            renderizarGastos();
         });
     </script>
 </body>
